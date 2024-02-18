@@ -19,22 +19,29 @@ const app = express()
         app.use(flash())
     //Middleware
         app.use((req, res, next) => {
-            res.locals.succes_msg = req.flash("success_msg");
+            res.locals.success_msg = req.flash("success_msg");
             res.locals.error_msg = req.flash("error_msg");
             next();
         })
     //body-parser
+        //body-parser serve para transformar textos JSON em textos JS pelo req.body
         app.use(bodyParser.urlencoded({extended: true}))
         app.use(bodyParser.json())
     //Handlebars
-        app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}))
+        app.engine('handlebars', handlebars.engine({defaultLayout: 'main',
+            runtimeOptions: {
+                allowProtoPropertiesByDefault: true,
+                allowProtoMethodsByDefault: true,
+            },
+        }))
+        //
         app.set('view engine', 'handlebars')
     //mongoose
         mongoose.Promise = global.Promise;
         mongoose.connect("mongodb://localhost/Blog").then(()=>{
             console.log("Conectado Com Sucesso Ao Servidor MongoDB")
         }).catch((err) => {
-            console.log("Falha ao Conectar ao MongoDB: " + err)
+            console.log("Falha ao Conectar ao MongoDB: ")
         })
     //Public
     app.use(express.static(path.join(__dirname, "public")))
