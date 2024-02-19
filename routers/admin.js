@@ -122,7 +122,7 @@ router.post("/postagens/nova", (req, res) => {
     if(erros.length > 0) {
         res.render("admin/addpostagem", {erros: erros})
     } else {
-        const novaPostagem ({
+        const novaPostagem = ({
             title: req.body.title,
             slug: req.body.slug,
             description: req.body.description,
