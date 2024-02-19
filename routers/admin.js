@@ -133,7 +133,7 @@ router.post("/postagens/nova", (req, res) => {
         new Postagens(novaPostagem).save().then(() => {
             req.flash("success_msg", "Postagem Criada com sucesso!!!")
             res.redirect("/admin/postagens")
-        }).catch((err) => {
+        }).catch((erro) => {
             req.flash("error_msg", "Houve um erro durante o salvamento da postagem")
             res.redirect("/admin/postagens")
         })
