@@ -16,4 +16,5 @@ const categoria = new Schema ({
     }
 })
 
+
 mongoose.model("categorias", categoria)
