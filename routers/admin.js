@@ -97,7 +97,13 @@ router.post("/categorias/delete", (req, res) =>{
 })
 
 router.get("/postagens", (req, res) => {
-    res.render("admin/posts")
+    //populate(nome do model que você criou entre "")
+    Postagens.find().populate("categoria").sort({date:"desc"}).then((postagens) => {
+        res.render("admin/posts", {postagens: postagens})
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro ao listar as postagens" + err)
+        res.redirect("/admin")
+    })
 })
 
 router.get("/postagens/add", (req, res) => {

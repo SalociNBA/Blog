@@ -1,3 +1,19 @@
 <h2>Lista de Postagens</h2>
 <hr>
 <a href="/admin/postagens/add"><button class="btn btn-success">Nova Postagem</button></a>
+
+{{#each postagens}}
+
+    <div class="card">
+        <div class="card-body">
+           <h4>{{title}}</h4>
+           <p>{{description}}</p>
+           <small>{{date}}</small>
+           <!-- collection categoria, por isso da seleção do campo (name) -->
+           <small>{{categoria.name}}</small>
+        </div>
+    </div>
+
+{{else}}
+    <p>Nenhuma postagem Registrada</p>
+{{/each}}
