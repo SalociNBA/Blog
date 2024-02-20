@@ -46,8 +46,14 @@ const app = express()
     //Public
     app.use(express.static(path.join(__dirname, "public")))
 //Rotas
+
+    app.get("/", (req, res) => {
+        res.render("index")
+    })
+
     const admin = require("./routers/admin")
     app.use("/admin", admin)
+
 
 //Outros
 app.listen(8081, ()=>{
