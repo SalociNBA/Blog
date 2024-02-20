@@ -66,6 +66,8 @@ router.get("/categorias/edit/:id", (req, res)=>{
 
 //Processo para salvar a edição de uma categoria existente em uma collection
 router.post("/categorias/edit", (req, res)=>{
+
+    //O categoria dentro do then refere-se ao Model
     Categoria.findOne({_id: req.body.id}).then((categoria)=>{
 
         //Recebendo na collection os novos valores inseridos nos inputs
@@ -145,6 +147,67 @@ router.post("/postagens/nova", (req, res) => {
         })
     }
 
+})
+
+router.get("/postagens/edit/:id", (req, res) => {
+
+    Postagens.findOne({_id: req.params.id}).then((postagem) => {
+
+        Categoria.find().then((categorias) => {
+
+            res.render("admin/editPostagem", {categorias: categorias, postagem: postagem})
+
+        }).catch((err) => {
+            console.log(err)
+            req.flash("error_msg", "Houve um erro ao listar as categorias")
+            res.redirect("/admin/postagens")
+        })
+
+    }).catch((err) => {
+        console.log(err)
+        req.flash("error_msg", "Houve um erro ao carregar o formulário de edição")
+        res.redirect("/admin/postagens")
+    })
+})
+
+router.post("/postagem/edit", (req, res) => {
+
+    Postagens.findOne({_id: req.body.id}).then((postagem) => {
+
+        postagem.titulo = req.body.title,
+        postagem.slug = req.body.slug,
+        postagem.description = req.body.description,
+        postagem.content = req.body.content,
+        postagem.categoria = req.body.categoria
+
+        postagem.save().then(() => {
+            req.flash("success_msg", "Postagem editada com sucesso!")
+            res.redirect("/admin/postagens")
+        }).catch((err) => {
+            console.log(err)
+            req.flash("error_msg", "Falha ao salvar a edição: ")
+            res.redirect("/admin/postagens")
+        })
+        
+    }).catch((err) => {
+        console.log(err)
+        req.flash("error_msg", "houve um erro ao salvar a edição")
+        res.redirect("/admin/postagens")
+    })
+
+})
+
+//Segunda forma de se deletar um documento no mongoDB
+//Nâo muito recomendado por questões de segurança
+router.get("postagens/deletar/:id", (req, res) => {
+    Postagens.remove({_id: req.params.id}).then(()=>{
+        req.flash("success_msg", "Postagem deletada com sucesso")
+        res.redirect("/admin/postagens")
+    }).catch((err)=>{
+        console.log(err)
+        req.flash("error_msg", "Falha ao deletar a Postagem")
+        res.redirect("/admin/postagens")
+    })
 })
 
 

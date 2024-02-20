@@ -10,7 +10,9 @@
            <p>{{description}}</p>
            <small>{{date}}</small>
            <!-- collection categoria, por isso da seleção do campo (name) -->
-           <small>{{categoria.name}}</small>
+           <small>{{categoria.name}}</small><br>
+           <a href="/admin/postagens/edit/{{_id}}"><button class="btn btn-success">Editar Postagem</button></a>
+           <a href="/admin/postagens/deletar/{{_id}}"><button class="btn btn-danger">Deletar Postagem</button></a>
         </div>
     </div>
 
