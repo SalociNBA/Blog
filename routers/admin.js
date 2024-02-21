@@ -5,12 +5,14 @@ require("../models/Categoria")
 const Categoria = mongoose.model("categorias")
 require("../models/Posts")
 const Postagens = mongoose.model("posts")
+//De dentro do helper é admin a {eAdmin} está pegando apenas a função eAdmin
+const {eAdmin} = require("../helpers/eAdmin")
 
 router.get("/", (req, res) => {
     res.render("admin/index")
 })
 
-router.get("/categorias", (req, res) => {
+router.get("/categorias", eAdmin, (req, res) => {
     //categoria.find serve para puxar os dados do banco de dados da collection categoria
     //sort() serve para ordenar o resultado
     Categoria.find().sort({date:"desc"}).then((categorias)=>{
@@ -21,11 +23,11 @@ router.get("/categorias", (req, res) => {
     })
 })
 
-router.get("/categorias/add", (req, res) => {
+router.get("/categorias/add", eAdmin, (req, res) => {
     res.render("admin/addcategoria")
 })
 
-router.post("/categorias/nova", (req, res) => {
+router.post("/categorias/nova", eAdmin, (req, res) => {
 
     var erros = []
     if(!req.body.name || typeof req.body.name == undefined || req.body.name == null){
@@ -53,7 +55,7 @@ router.post("/categorias/nova", (req, res) => {
     }
 })
 
-router.get("/categorias/edit/:id", (req, res)=>{
+router.get("/categorias/edit/:id", eAdmin, (req, res)=>{
     //_id (Campo da Collection) req.body.id (id que está no link)
     //req.params.id é diferente do req.body.id
     Categoria.findOne({_id: req.params.id}).then((categoria) => {
@@ -65,7 +67,7 @@ router.get("/categorias/edit/:id", (req, res)=>{
 })
 
 //Processo para salvar a edição de uma categoria existente em uma collection
-router.post("/categorias/edit", (req, res)=>{
+router.post("/categorias/edit", eAdmin, (req, res)=>{
 
     //O categoria dentro do then refere-se ao Model
     Categoria.findOne({_id: req.body.id}).then((categoria)=>{
@@ -88,7 +90,7 @@ router.post("/categorias/edit", (req, res)=>{
     })
 })
 
-router.post("/categorias/delete", (req, res) =>{
+router.post("/categorias/delete", eAdmin, (req, res) =>{
     Categoria.findOneAndDelete({_id: req.body.id}).then(()=>{
         req.flash("success_msg", "Categoria Removida com Sucesso!!")
         res.redirect("/admin/categorias")
@@ -98,7 +100,7 @@ router.post("/categorias/delete", (req, res) =>{
     })
 })
 
-router.get("/postagens", (req, res) => {
+router.get("/postagens", eAdmin, (req, res) => {
     //populate(nome do model que você criou entre "")
     Postagens.find().populate("categoria").sort({date:"desc"}).then((postagens) => {
         res.render("admin/posts", {postagens: postagens})
@@ -108,7 +110,7 @@ router.get("/postagens", (req, res) => {
     })
 })
 
-router.get("/postagens/add", (req, res) => {
+router.get("/postagens/add", eAdmin, (req, res) => {
     Categoria.find().then((categorias) => {
 
         res.render("admin/addpostagem", {categorias: categorias})
@@ -119,7 +121,7 @@ router.get("/postagens/add", (req, res) => {
     })
 })
 
-router.post("/postagens/nova", (req, res) => {
+router.post("/postagens/nova", eAdmin, (req, res) => {
 
     var erros = []
 
@@ -149,7 +151,7 @@ router.post("/postagens/nova", (req, res) => {
 
 })
 
-router.get("/postagens/edit/:id", (req, res) => {
+router.get("/postagens/edit/:id", eAdmin, (req, res) => {
 
     Postagens.findOne({_id: req.params.id}).then((postagem) => {
 
@@ -170,7 +172,7 @@ router.get("/postagens/edit/:id", (req, res) => {
     })
 })
 
-router.post("/postagem/edit", (req, res) => {
+router.post("/postagem/edit", eAdmin, (req, res) => {
 
     Postagens.findOne({_id: req.body.id}).then((postagem) => {
 
@@ -199,7 +201,7 @@ router.post("/postagem/edit", (req, res) => {
 
 //Segunda forma de se deletar um documento no mongoDB
 //Nâo muito recomendado por questões de segurança
-router.get("postagens/deletar/:id", (req, res) => {
+router.get("postagens/deletar/:id", eAdmin, (req, res) => {
     Postagens.remove({_id: req.params.id}).then(()=>{
         req.flash("success_msg", "Postagem deletada com sucesso")
         res.redirect("/admin/postagens")
