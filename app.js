@@ -55,7 +55,7 @@ const app = express()
         mongoose.Promise = global.Promise;
 
         mongoose
-            .connect(process.env.MONGO_URL).then(()=>{
+            .connect("mongodb+srv://Admin:Admin123@blogapp.mcm2nhh.mongodb.net/?retryWrites=true&w=majority&appName=blogapp").then(()=>{
             console.log("Conectado Com Sucesso Ao Servidor MongoDB")
         }).catch((err) => {
             console.log("Falha ao Conectar ao MongoDB: " + err)
