@@ -4,8 +4,7 @@ const handlebars = require ("express-handlebars")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const path = require("path")
-//const session = require("express-session")
-const session = require("cookie-session")
+const session = require("express-session")
 const flash = require("connect-flash")
 require("./models/Posts")
 const Postagem = mongoose.model("posts")
@@ -55,13 +54,12 @@ const app = express()
     //mongoose
         mongoose.Promise = global.Promise;
 
-        async () => {
-            await mongoose.connect(db.mongoURI).then(()=>{
-                console.log("Conectado Com Sucesso Ao Servidor MongoDB")
-            }).catch((err) => {
-                console.log("Falha ao Conectar ao MongoDB: " + err)
-            })
-        }
+        mongoose.connect(db.mongoURI).then(()=>{
+            console.log("Conectado Com Sucesso Ao Servidor MongoDB")
+        }).catch((err) => {
+            console.log("Falha ao Conectar ao MongoDB: " + err)
+        })
+
     //Public
     app.use(express.static(path.join(__dirname, "public")))
 //Rotas
