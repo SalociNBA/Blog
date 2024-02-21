@@ -54,15 +54,13 @@ const app = express()
     //mongoose
         mongoose.Promise = global.Promise;
 
-        const run = async () => {
+        mongoose
+            .connect(process.env.MONGO_URL).then(()=>{
+            console.log("Conectado Com Sucesso Ao Servidor MongoDB")
+        }).catch((err) => {
+            console.log("Falha ao Conectar ao MongoDB: " + err)
+        })
 
-            await connect(db.mongoURI).then(()=>{
-                console.log("Conectado Com Sucesso Ao Servidor MongoDB")
-            }).catch((err) => {
-                console.log("Falha ao Conectar ao MongoDB: " + err)
-            })
-
-        }
 
     //Public
     app.use(express.static(path.join(__dirname, "public")))
