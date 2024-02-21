@@ -17,4 +17,5 @@ const categoria = new Schema ({
 })
 
 //"nome da collection", qual model vai utilizar 
+//primeiro nome é para poder puxar nos outros files
 mongoose.model("categorias", categoria)
