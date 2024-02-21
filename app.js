@@ -22,16 +22,16 @@ const app = express()
 //Configurações
     //Session
         app.use(session({
-            secret: "foo",
-            store: MongoStore.create(options)
-        }))
-        app.use(session({
             secret: "CursoDeNode",
             resave: true,
             saveUninitialized: true
         }))
 
         app.use(mongoStore.initialize())
+        app.use(session({
+            secret: "foo",
+            store: MongoStore.create(options)
+        }))
         app.use(passport.initialize())
         app.use(passport.session())
 
