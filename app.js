@@ -13,6 +13,7 @@ const Categoria = mongoose.model("categorias")
 const usuarios = require("./routers/usuario")
 const passport = require("passport")
 require("./config/auth")(passport)
+const db = require("./config/db")
 
 const app = express()
 
@@ -52,7 +53,7 @@ const app = express()
         app.set('view engine', 'handlebars')
     //mongoose
         mongoose.Promise = global.Promise;
-        mongoose.connect("mongodb://localhost/Blog").then(()=>{
+        mongoose.connect(db.mongoURI).then(()=>{
             console.log("Conectado Com Sucesso Ao Servidor MongoDB")
         }).catch((err) => {
             console.log("Falha ao Conectar ao MongoDB: ")
@@ -138,6 +139,6 @@ const app = express()
 
 
 //Outros
-app.listen(8081, ()=>{
+app.listen(process.env.PORT || 8081, ()=>{
     console.log("Servidor Rodando com Sucesso!!")
 })
