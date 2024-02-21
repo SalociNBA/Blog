@@ -56,7 +56,7 @@ const app = express()
 
         const run = async () => {
 
-            mongoose.connect(db.mongoURI).then(()=>{
+            await mongoose.connect(db.mongoURI).then(()=>{
                 console.log("Conectado Com Sucesso Ao Servidor MongoDB")
             }).catch((err) => {
                 console.log("Falha ao Conectar ao MongoDB: " + err)
