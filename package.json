@@ -13,7 +13,6 @@
   "name": "blog",
   "version": "1.0.0",
   "main": "app.js",
-  "type": "module",
   "engines": {
     "node": "18.x"
   },
