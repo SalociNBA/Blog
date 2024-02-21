@@ -5,6 +5,7 @@ const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const path = require("path")
 const session = require("express-session")
+const mongoStore = require("connect-mongo")
 const flash = require("connect-flash")
 require("./models/Posts")
 const Postagem = mongoose.model("posts")
@@ -15,10 +16,15 @@ const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")
 
+
 const app = express()
 
 //Configurações
     //Session
+        app.use(session({
+            secret: "foo",
+            store: MongoStore.create(options)
+        }))
         app.use(session({
             secret: "CursoDeNode",
             resave: true,
@@ -54,12 +60,12 @@ const app = express()
     //mongoose
         mongoose.Promise = global.Promise;
 
-        mongoose
-            .connect("mongodb+srv://Admin:Admin123@blogapp.mcm2nhh.mongodb.net/?retryWrites=true&w=majority&appName=blogapp").then(()=>{
-            console.log("Conectado Com Sucesso Ao Servidor MongoDB")
-        }).catch((err) => {
-            console.log("Falha ao Conectar ao MongoDB: " + err)
-        })
+        app.use(session({
+            store: MongoStore.create({
+              mongoUrl: 'mongodb+srv://Admin:Admin123@blogapp.mcm2nhh.mongodb.net/?retryWrites=true&w=majority&appName=blogapp',
+              mongoOptions: advancedOptions // See below for details
+            })
+        }));
 
 
     //Public
@@ -139,6 +145,7 @@ const app = express()
     })
 
     const admin = require("./routers/admin")
+const MongoStore = require("connect-mongo")
     app.use("/admin", admin)
 
 
