@@ -31,7 +31,7 @@ const app = express()
             saveUninitialized: true
         }))
 
-
+        app.use(mongoStore.initialize())
         app.use(passport.initialize())
         app.use(passport.session())
 
