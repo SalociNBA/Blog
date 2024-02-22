@@ -13,6 +13,7 @@ module.exports = (passport)=>{
 
         Usuario.findOne({email: email}).then((usuario) => {
             if(!usuario) {
+                //Dados da conta que foi autenticada, se a autenticação aconteceu com sucesso ou não e a mensagem
                 return done(null, false, {message: "Esta conta não existe"})
             }
 
@@ -35,10 +36,6 @@ module.exports = (passport)=>{
     })
 
     passport.deserializeUser((id, done) => {
-        
-        Usuario.findById(id, (err, user) => {
-            done(err, user)
-        })
 
         Usuario.findById(id).then((user) => {
             done(null, user)

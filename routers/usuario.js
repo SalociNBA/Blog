@@ -95,11 +95,13 @@ router.post("/login", (req, res, next) => {
 
 })
 
-router.get("/logout", (req, res) => {
+router.get("/logout", (req, res, next) => {
 
-    req.logout()
-    req.flash("success_msg", "Deslogado com Sucesso")
-    res.redirect("/")
+    req.logout( function(err) {
+        if(err) { return next(err) }
+            req.flash("success_msg", "Deslogado com Sucesso")
+            res.redirect("/")
+    })
 
 })
 
