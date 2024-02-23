@@ -12,7 +12,7 @@ const Usuario = new Schema ({
     },
     accountType: {
         type: Number,
-        default: 0
+        default: 1
     },
     password: {
         type: String,
