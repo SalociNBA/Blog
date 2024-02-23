@@ -15,6 +15,8 @@ const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")
 
+const {eAdmin} = require("./helpers/eAdmin")
+
 
 const app = express()
 
@@ -68,7 +70,7 @@ const app = express()
     app.get("/", (req, res) => {
         Postagem.find().populate("categoria").sort({date: "desc"}).then((post) => {
             //{Nome que deseja colocar para usar no HTML: nome do Model}
-            res.render("index", {postagens: post})
+            res.render("index", {postagens: post, eAdmin: eAdmin})
         }).catch((err) => {
             console.log(err)
             req.flash("error_msg", "Houve um erro interno")
