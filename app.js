@@ -49,7 +49,7 @@ const app = express()
             },
         }))
         //
-        app.set('view engine', 'handlebars')
+        app.set('view engine', 'handlebars');
     //mongoose
         mongoose.Promise = global.Promise;
 
